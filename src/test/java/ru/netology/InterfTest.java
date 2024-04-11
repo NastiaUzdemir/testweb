@@ -17,6 +17,7 @@ public class InterfTest {
         // закгрузить страницу
         // поиск элементов
         // взаимодействие с элементами
+        Configuration.browser = "chrome";
         Configuration.headless = true;
         Selenide.open("http://localhost:9999");
 
@@ -34,7 +35,9 @@ public class InterfTest {
 
     @Test
     public void testFieldValidation() throws InterruptedException {
-        Selenide.open("http://0.0.0.0:9999");
+        Configuration.browser = "chrome";
+        Configuration.headless = true;
+        Selenide.open("http://localhost:9999");
 
         $("input[type=text]").setValue("");
         $("input[type=tel]").setValue("123");
