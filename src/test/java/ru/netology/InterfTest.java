@@ -4,22 +4,27 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Condition.text;
 
 public class InterfTest {
 
-    @Test
-    void shouldTestSomething() throws InterruptedException {
+    @BeforeAll
+    public static void setUp() {
         Configuration.browser = "chrome";
         System.setProperty("selenide.browser", "chrome");
+        Configuration.headless = true;
+    }
+
+    @Test
+    void shouldTestSomething() throws InterruptedException {
         // закгрузить страницу
         // поиск элементов
         // взаимодействие с элементами
-
-        Configuration.headless = true;
         Selenide.open("http://localhost:9999");
 
         $("input[type=text]").setValue("Иванов Иван");
@@ -34,9 +39,6 @@ public class InterfTest {
 
     @Test
     public void testFieldValidationName() throws InterruptedException {
-        Configuration.browser = "chrome";
-        System.setProperty("selenide.browser", "chrome");
-        Configuration.headless = true;
         Selenide.open("http://localhost:9999");
 
         $("input[type=text]").setValue("");
@@ -57,9 +59,7 @@ public class InterfTest {
 
     @Test
     public void testFieldValidationPhone() throws InterruptedException {
-        Configuration.browser = "chrome";
-        System.setProperty("selenide.browser", "chrome");
-        Configuration.headless = true;
+
         Selenide.open("http://localhost:9999");
 
         $("input[type=text]").setValue("Иван Иванов");
@@ -80,9 +80,7 @@ public class InterfTest {
 
     @Test
     public void testFieldValidationPhoneName() throws InterruptedException {
-        Configuration.browser = "chrome";
-        System.setProperty("selenide.browser", "chrome");
-        Configuration.headless = true;
+
         Selenide.open("http://localhost:9999");
 
         $("input[type=text]").setValue("");
@@ -100,13 +98,9 @@ public class InterfTest {
 
     @Test
     public void testFieldValidationCbox() throws InterruptedException {
-        Configuration.browser = "chrome";
-        System.setProperty("selenide.browser", "chrome");
         // закгрузить страницу
         // поиск элементов
         // взаимодействие с элементами
-
-        Configuration.headless = true;
         Selenide.open("http://localhost:9999");
 
         $("input[type=text]").setValue("Иванов Иван");
@@ -116,7 +110,6 @@ public class InterfTest {
         continueButton.click();
 
         $("[data-test-id=agreement] .checkbox__text").shouldNotHave(cssClass("input_error"));
-
     }
 
 
