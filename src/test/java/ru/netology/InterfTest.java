@@ -5,19 +5,20 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
-
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.byAttribute;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Condition.text;
 
 public class InterfTest {
+
     @Test
     void shouldTestSomething() throws InterruptedException {
+        Configuration.browser = "chrome";
+        System.setProperty("selenide.browser", "chrome");
         // закгрузить страницу
         // поиск элементов
         // взаимодействие с элементами
-        Configuration.browser = "chrome";
+
         Configuration.headless = true;
         Selenide.open("http://localhost:9999");
 
@@ -25,35 +26,98 @@ public class InterfTest {
         $("input[type=tel]").setValue("+79094397835");
         $("[data-test-id=agreement]").click();
         SelenideElement continueButton =
-                $(".form-field_theme_alfa-on-white .button__text").shouldBe(visible);
+                $(".button__text").shouldBe(visible);
         continueButton.click();
         $("[data-test-id=order-success]").shouldHave(Condition.exactText("Ваша заявка " +
                 "успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
-
-        Thread.sleep(5000);
     }
 
     @Test
-    public void testFieldValidation() throws InterruptedException {
+    public void testFieldValidationName() throws InterruptedException {
         Configuration.browser = "chrome";
+        System.setProperty("selenide.browser", "chrome");
         Configuration.headless = true;
         Selenide.open("http://localhost:9999");
 
         $("input[type=text]").setValue("");
         $("input[type=tel]").setValue("123");
+        $("[data-test-id=agreement]").click();
 
         SelenideElement continueButton =
-                $(".form-field_theme_alfa-on-white .button__text").shouldBe(visible);
+                $(".button__text").shouldBe(visible);
         continueButton.click();
 
         // сообщение об ошибке
-        $(byAttribute("data-test-id", "name")).
-                $(".input__sub").shouldHave(text("Поле обязательно для заполнения"));
+        $("[data-test-id='name'] .input__sub").shouldHave(text("Поле обязательно для заполнения"));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $(byAttribute("data-test-id", "phone")).
-                shouldNotHave(cssClass("input_error"));
+        $("[data-test-id='phone'] .input__sub").shouldNotHave(cssClass("input_error"));
 
-        Thread.sleep(5000);
     }
+
+    @Test
+    public void testFieldValidationPhone() throws InterruptedException {
+        Configuration.browser = "chrome";
+        System.setProperty("selenide.browser", "chrome");
+        Configuration.headless = true;
+        Selenide.open("http://localhost:9999");
+
+        $("input[type=text]").setValue("Иван Иванов");
+        $("input[type=tel]").setValue("");
+        $("[data-test-id=agreement]").click();
+
+        SelenideElement continueButton =
+                $(".button__text").shouldBe(visible);
+        continueButton.click();
+
+        // сообщение об ошибке
+        $("[data-test-id='phone'] .input__sub").shouldHave(text("Поле обязательно для заполнения"));
+
+        // Проверяем, что только первое неправильно заполненное поле подсвечено
+        $("[data-test-id='name'] .input__sub").shouldNotHave(cssClass("input_error"));
+
+    }
+
+    @Test
+    public void testFieldValidationPhoneName() throws InterruptedException {
+        Configuration.browser = "chrome";
+        System.setProperty("selenide.browser", "chrome");
+        Configuration.headless = true;
+        Selenide.open("http://localhost:9999");
+
+        $("input[type=text]").setValue("");
+        $("input[type=tel]").setValue("");
+        $("[data-test-id=agreement]").click();
+
+        SelenideElement continueButton =
+                $(".button__text").shouldBe(visible);
+        continueButton.click();
+
+        // сообщение об ошибке
+        $("[data-test-id='phone'] .input__sub").shouldNotHave(cssClass("input_error"));
+        $("[data-test-id='name'] .input__sub").shouldNotHave(cssClass("input_error"));
+    }
+
+    @Test
+    public void testFieldValidationCbox() throws InterruptedException {
+        Configuration.browser = "chrome";
+        System.setProperty("selenide.browser", "chrome");
+        // закгрузить страницу
+        // поиск элементов
+        // взаимодействие с элементами
+
+        Configuration.headless = true;
+        Selenide.open("http://localhost:9999");
+
+        $("input[type=text]").setValue("Иванов Иван");
+        $("input[type=tel]").setValue("+79094397835");
+        SelenideElement continueButton =
+                $(".button__text").shouldBe(visible);
+        continueButton.click();
+
+        $("[data-test-id=agreement] .checkbox__text").shouldNotHave(cssClass("input_error"));
+
+    }
+
+
 }
