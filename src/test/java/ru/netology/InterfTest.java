@@ -6,6 +6,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.support.ui.Sleeper;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -17,7 +18,6 @@ public class InterfTest {
     public static void setUp() {
         Configuration.browser = "chrome";
         System.setProperty("selenide.browser", "chrome");
-        Configuration.headless = true;
     }
 
     @Test
@@ -50,10 +50,29 @@ public class InterfTest {
         continueButton.click();
 
         // сообщение об ошибке
-        $("[data-test-id='name'] .input__sub").shouldHave(text("Поле обязательно для заполнения"));
+        $("[data-test-id='name'].input_invalid .input__sub").shouldHave(text("Поле обязательно для заполнения"));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='phone'] .input__sub").shouldNotHave(cssClass("input_error"));
+        $("[data-test-id='phone'].input_invalid .input__sub");
+
+    }
+    @Test
+    public void testInvalidName() throws InterruptedException {
+        Selenide.open("http://localhost:9999");
+
+        $("input[type=text]").setValue("Ivan Ivanov");
+        $("input[type=tel]").setValue("123");
+        $("[data-test-id=agreement]").click();
+
+        SelenideElement continueButton =
+                $(".button__text").shouldBe(visible);
+        continueButton.click();
+
+        // сообщение об ошибке
+        $("[data-test-id='name'].input_invalid .input__sub").shouldHave(text("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
+
+        // Проверяем, что только первое неправильно заполненное поле подсвечено
+        $("[data-test-id='phone'].input_invalid .input__sub");
 
     }
 
@@ -71,10 +90,30 @@ public class InterfTest {
         continueButton.click();
 
         // сообщение об ошибке
-        $("[data-test-id='phone'] .input__sub").shouldHave(text("Поле обязательно для заполнения"));
+        $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(text("Поле обязательно для заполнения"));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='name'] .input__sub").shouldNotHave(cssClass("input_error"));
+        $("[data-test-id='name'].input_invalid .input__sub");
+
+    }
+    @Test
+    public void testInvalidPhone() throws InterruptedException {
+
+        Selenide.open("http://localhost:9999");
+
+        $("input[type=text]").setValue("Иван Иванов");
+        $("input[type=tel]").setValue("34522");
+        $("[data-test-id=agreement]").click();
+
+        SelenideElement continueButton =
+                $(".button__text").shouldBe(visible);
+        continueButton.click();
+
+        // сообщение об ошибке
+        $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+
+        // Проверяем, что только первое неправильно заполненное поле подсвечено
+        $("[data-test-id='name'].input_invalid .input__sub");
 
     }
 
@@ -92,24 +131,27 @@ public class InterfTest {
         continueButton.click();
 
         // сообщение об ошибке
-        $("[data-test-id='phone'] .input__sub").shouldNotHave(cssClass("input_error"));
-        $("[data-test-id='name'] .input__sub").shouldNotHave(cssClass("input_error"));
+        $("[data-test-id='name'].input_invalid .input__sub").shouldHave(text("Поле обязательно для заполнения"));
+
+        // Проверяем, что только первое неправильно заполненное поле подсвечено
+        $("[data-test-id='name'].input_invalid .input__sub");
+
     }
 
     @Test
     public void testFieldValidationCbox() throws InterruptedException {
-        // закгрузить страницу
-        // поиск элементов
-        // взаимодействие с элементами
+
         Selenide.open("http://localhost:9999");
 
         $("input[type=text]").setValue("Иванов Иван");
         $("input[type=tel]").setValue("+79094397835");
+        SelenideElement checkbox =
+                $("[data-test-id=agreement] .checkbox__text").shouldBe(visible).shouldBe(enabled);
+
         SelenideElement continueButton =
                 $(".button__text").shouldBe(visible);
         continueButton.click();
 
-        $("[data-test-id=agreement] .checkbox__text").shouldNotHave(cssClass("input_error"));
     }
 
 
