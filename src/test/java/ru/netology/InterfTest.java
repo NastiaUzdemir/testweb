@@ -4,13 +4,18 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Sleeper;
+
+import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Condition.text;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterfTest {
 
@@ -42,7 +47,7 @@ public class InterfTest {
         Selenide.open("http://localhost:9999");
 
         $("input[type=text]").setValue("");
-        $("input[type=tel]").setValue("123");
+        $("input[type=tel]").setValue("+79094397835");
         $("[data-test-id=agreement]").click();
 
         SelenideElement continueButton =
@@ -53,7 +58,7 @@ public class InterfTest {
         $("[data-test-id='name'].input_invalid .input__sub").shouldHave(text("Поле обязательно для заполнения"));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='phone'].input_invalid .input__sub");
+        $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);;
 
     }
     @Test
@@ -61,7 +66,7 @@ public class InterfTest {
         Selenide.open("http://localhost:9999");
 
         $("input[type=text]").setValue("Ivan Ivanov");
-        $("input[type=tel]").setValue("123");
+        $("input[type=tel]").setValue("+79094397835");
         $("[data-test-id=agreement]").click();
 
         SelenideElement continueButton =
@@ -72,7 +77,7 @@ public class InterfTest {
         $("[data-test-id='name'].input_invalid .input__sub").shouldHave(text("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='phone'].input_invalid .input__sub");
+        $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);;
 
     }
 
@@ -93,7 +98,7 @@ public class InterfTest {
         $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(text("Поле обязательно для заполнения"));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='name'].input_invalid .input__sub");
+        $("[data-test-id='name'].input_invalid .input__sub").shouldNotBe(visible);;
 
     }
     @Test
@@ -113,7 +118,7 @@ public class InterfTest {
         $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='name'].input_invalid .input__sub");
+        $("[data-test-id='name'].input_invalid .input__sub").shouldNotBe(visible);;
 
     }
 
@@ -134,7 +139,7 @@ public class InterfTest {
         $("[data-test-id='name'].input_invalid .input__sub").shouldHave(text("Поле обязательно для заполнения"));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='name'].input_invalid .input__sub");
+        $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);
 
     }
 
@@ -148,9 +153,14 @@ public class InterfTest {
         SelenideElement checkbox =
                 $("[data-test-id=agreement] .checkbox__text").shouldBe(visible).shouldBe(enabled);
 
+        Assertions.assertFalse(checkbox.isSelected());
+
         SelenideElement continueButton =
                 $(".button__text").shouldBe(visible);
         continueButton.click();
+
+        String redTextColor = checkbox.getCssValue("color");
+        Assertions.assertEquals("rgba(255, 92, 92, 1)", redTextColor);
 
     }
 
