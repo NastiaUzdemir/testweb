@@ -58,7 +58,10 @@ public class InterfTest {
         $("[data-test-id='name'].input_invalid .input__sub").shouldHave(text("Поле обязательно для заполнения"));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);;
+        $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);
+
+        Assertions.assertTrue($("[data-test-id='name'].input_invalid .input__sub").is(visible));
+        Assertions.assertFalse($("[data-test-id='phone'].input_invalid .input__sub").is(visible));
 
     }
     @Test
@@ -77,7 +80,10 @@ public class InterfTest {
         $("[data-test-id='name'].input_invalid .input__sub").shouldHave(text("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);;
+        $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);
+
+        Assertions.assertTrue($("[data-test-id='name'].input_invalid .input__sub").is(visible));
+        Assertions.assertFalse($("[data-test-id='phone'].input_invalid .input__sub").is(visible));
 
     }
 
@@ -98,7 +104,10 @@ public class InterfTest {
         $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(text("Поле обязательно для заполнения"));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='name'].input_invalid .input__sub").shouldNotBe(visible);;
+        $("[data-test-id='name'].input_invalid .input__sub").shouldNotBe(visible);
+
+        Assertions.assertTrue($("[data-test-id='phone'].input_invalid .input__sub").is(visible));
+        Assertions.assertFalse($("[data-test-id='name'].input_invalid .input__sub").is(visible));
 
     }
     @Test
@@ -118,7 +127,10 @@ public class InterfTest {
         $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
-        $("[data-test-id='name'].input_invalid .input__sub").shouldNotBe(visible);;
+        $("[data-test-id='name'].input_invalid .input__sub").shouldNotBe(visible);
+
+        Assertions.assertTrue($("[data-test-id='phone'].input_invalid .input__sub").is(visible));
+        Assertions.assertFalse($("[data-test-id='name'].input_invalid").exists());
 
     }
 
@@ -140,6 +152,9 @@ public class InterfTest {
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
         $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);
+
+        Assertions.assertTrue($("[data-test-id='name'].input_invalid .input__sub").is(visible));
+        Assertions.assertFalse($("[data-test-id='phone'].input_invalid").exists());
 
     }
 
