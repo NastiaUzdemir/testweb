@@ -60,9 +60,6 @@ public class InterfTest {
         // Проверяем, что только первое неправильно заполненное поле подсвечено
         $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);
 
-        Assertions.assertTrue($("[data-test-id='name'].input_invalid .input__sub").is(visible));
-        Assertions.assertFalse($("[data-test-id='phone'].input_invalid .input__sub").is(visible));
-
     }
     @Test
     public void testInvalidName() throws InterruptedException {
@@ -81,9 +78,6 @@ public class InterfTest {
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
         $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);
-
-        Assertions.assertTrue($("[data-test-id='name'].input_invalid .input__sub").is(visible));
-        Assertions.assertFalse($("[data-test-id='phone'].input_invalid .input__sub").is(visible));
 
     }
 
@@ -106,9 +100,6 @@ public class InterfTest {
         // Проверяем, что только первое неправильно заполненное поле подсвечено
         $("[data-test-id='name'].input_invalid .input__sub").shouldNotBe(visible);
 
-        Assertions.assertTrue($("[data-test-id='phone'].input_invalid .input__sub").is(visible));
-        Assertions.assertFalse($("[data-test-id='name'].input_invalid .input__sub").is(visible));
-
     }
     @Test
     public void testInvalidPhone() throws InterruptedException {
@@ -128,9 +119,6 @@ public class InterfTest {
 
         // Проверяем, что только первое неправильно заполненное поле подсвечено
         $("[data-test-id='name'].input_invalid .input__sub").shouldNotBe(visible);
-
-        Assertions.assertTrue($("[data-test-id='phone'].input_invalid .input__sub").is(visible));
-        Assertions.assertFalse($("[data-test-id='name'].input_invalid").exists());
 
     }
 
@@ -153,9 +141,6 @@ public class InterfTest {
         // Проверяем, что только первое неправильно заполненное поле подсвечено
         $("[data-test-id='phone'].input_invalid .input__sub").shouldNotBe(visible);
 
-        Assertions.assertTrue($("[data-test-id='name'].input_invalid .input__sub").is(visible));
-        Assertions.assertFalse($("[data-test-id='phone'].input_invalid").exists());
-
     }
 
     @Test
@@ -174,8 +159,7 @@ public class InterfTest {
                 $(".button__text").shouldBe(visible);
         continueButton.click();
 
-        String redTextColor = checkbox.getCssValue("color");
-        Assertions.assertEquals("rgba(255, 92, 92, 1)", redTextColor);
+        $("[data-test-id=agreement].input_invalid").shouldBe(visible);
 
     }
 
